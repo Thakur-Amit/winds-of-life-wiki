@@ -1,0 +1,6 @@
+{
+  "name": "Winds of Life",
+  "description": "A dark, lore-heavy worldbuilding wiki and interactive family tree inspired by Winds of Life's Wiki, featuring Sanity Portable Text interlinking and React Flow visualization.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
