@@ -72,8 +72,8 @@ export const FamilyTreeFlow: React.FC<FamilyTreeFlowProps> = ({
   const [formAvatar, setFormAvatar] = useState('');
   const [formBorn, setFormBorn] = useState('');
   const [formDied, setFormDied] = useState('');
-  const [formSpouse, setFormSpouse] = useState('');
-  const [formParentId, setFormParentId] = useState<string>('none');
+  const [formFather, setFormFather] = useState('');
+  const [formMother, setFormMother] = useState('');
 
   // Load house data
   const loadTreeForHouse = useCallback(
@@ -144,8 +144,8 @@ export const FamilyTreeFlow: React.FC<FamilyTreeFlowProps> = ({
     setFormAvatar('https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=80');
     setFormBorn('295 AC');
     setFormDied('');
-    setFormSpouse('');
-    setFormParentId('none');
+    setFormFather('');
+    setFormMother('');
     setIsNodeModalOpen(true);
   };
 
@@ -165,8 +165,8 @@ export const FamilyTreeFlow: React.FC<FamilyTreeFlowProps> = ({
     setFormAvatar(nodeData.avatar || '');
     setFormBorn(nodeData.born || '');
     setFormDied(nodeData.died || '');
-    setFormSpouse(nodeData.spouseName || '');
-    setFormParentId('none');
+    setFormFather('');
+    setFormMother('');
     setIsNodeModalOpen(true);
   };
 
@@ -222,15 +222,16 @@ export const FamilyTreeFlow: React.FC<FamilyTreeFlowProps> = ({
 
     if (modalMode === 'add') {
       const newId = `${activeHouseId}-${Date.now().toString(36)}`;
-      // Compute intelligent placement
-      const parentNode = nodes.find((n) => n.id === formParentId);
-      const posX = parentNode ? parentNode.position.x + 30 : 380 + Math.random() * 60;
-      const posY = parentNode ? parentNode.position.y + 200 : (nodes.length * 50) % 400 + 100;
+      const parentEntries = [
+        { name: formFather.trim(), role: 'Father' },
+        { name: formMother.trim(), role: 'Mother' },
+      ].filter((parent) => parent.name);
+      const childPosition = { x: 420 + (nodes.length % 3) * 40, y: (nodes.length * 50) % 400 + 260 };
 
       const newNode: Node = {
         id: newId,
         type: 'characterNode',
-        position: { x: posX, y: posY },
+        position: childPosition,
         data: {
           id: newId,
           name: formName.trim(),
@@ -241,7 +242,6 @@ export const FamilyTreeFlow: React.FC<FamilyTreeFlowProps> = ({
           avatar: formAvatar.trim(),
           born: formBorn.trim(),
           died: formDied.trim() || undefined,
-          spouseName: formSpouse.trim() || undefined,
           onSelect: (s: string) => {
             if (!isDesignMode) onSelectCharacter(s);
             else setSelectedNodeId(newId);
@@ -249,19 +249,44 @@ export const FamilyTreeFlow: React.FC<FamilyTreeFlowProps> = ({
         },
       };
 
-      const updatedNodes = [...nodes, newNode];
+      const parentNodes: Node[] = parentEntries.map((parent, index) => {
+        const parentId = `${activeHouseId}-${parent.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${Date.now().toString(36)}-${index}`;
+        const parentSlug = parent.name
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/(^-|-$)/g, '');
+        return {
+          id: parentId,
+          type: 'characterNode',
+          position: { x: childPosition.x - 170 + index * 340, y: childPosition.y - 210 },
+          data: {
+            id: parentId,
+            name: parent.name,
+            slug: parentSlug,
+            role: parent.role,
+            house: formHouse.trim(),
+            status: 'Alive',
+            avatar: formAvatar.trim(),
+            onSelect: (s: string) => {
+              if (!isDesignMode) onSelectCharacter(s);
+              else setSelectedNodeId(parentId);
+            },
+          },
+        };
+      });
+
+      const updatedNodes = [...nodes, ...parentNodes, { ...newNode, position: childPosition }];
       let updatedEdges = [...edges];
 
-      if (formParentId !== 'none') {
-        const edgeId = `e-${formParentId}-${newId}`;
+      parentNodes.forEach((parentNode) => {
         updatedEdges.push({
-          id: edgeId,
-          source: formParentId,
+          id: `e-${parentNode.id}-${newId}`,
+          source: parentNode.id,
           target: newId,
           type: 'smoothstep',
           style: { stroke: currentHouse.accentColor || '#d4af37', strokeWidth: 2 },
         });
-      }
+      });
 
       setNodes(updatedNodes);
       setEdges(updatedEdges);
@@ -304,7 +329,6 @@ export const FamilyTreeFlow: React.FC<FamilyTreeFlowProps> = ({
               avatar: formAvatar.trim(),
               born: formBorn.trim(),
               died: formDied.trim() || undefined,
-              spouseName: formSpouse.trim() || undefined,
             },
           };
         }
@@ -566,11 +590,6 @@ export const FamilyTreeFlow: React.FC<FamilyTreeFlowProps> = ({
                         <p className="text-[11px] text-neutral-400 mt-1 font-mono">
                           Born {data.born || 'Unknown'}{data.died ? ` • Died ${data.died}` : ''}
                         </p>
-                        {data.spouseName && (
-                          <p className="text-[11px] text-neutral-400 mt-0.5">
-                            Spouse: <span className="text-neutral-300">{data.spouseName}</span>
-                          </p>
-                        )}
                       </div>
                     </div>
 
@@ -712,33 +731,30 @@ export const FamilyTreeFlow: React.FC<FamilyTreeFlowProps> = ({
                     className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-neutral-100 focus:outline-none focus:border-amber-500 font-mono"
                   />
                 </div>
-                <div>
-                  <label className="block text-neutral-300 font-medium mb-1">Spouse Name</label>
-                  <input
-                    type="text"
-                    value={formSpouse}
-                    onChange={(e) => setFormSpouse(e.target.value)}
-                    placeholder="e.g. Catelyn Tully"
-                    className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-neutral-100 focus:outline-none focus:border-amber-500"
-                  />
-                </div>
               </div>
 
               {modalMode === 'add' && (
-                <div>
-                  <label className="block text-neutral-300 font-medium mb-1">Parent (Connect in Tree)</label>
-                  <select
-                    value={formParentId}
-                    onChange={(e) => setFormParentId(e.target.value)}
-                    className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-neutral-100 focus:outline-none focus:border-amber-500"
-                  >
-                    <option value="none">-- No Parent (Root / Top-level) --</option>
-                    {nodes.map((n) => (
-                      <option key={n.id} value={n.id}>
-                        {(n.data as any).name} ({(n.data as any).role})
-                      </option>
-                    ))}
-                  </select>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-neutral-300 font-medium mb-1">Father</label>
+                    <input
+                      type="text"
+                      value={formFather}
+                      onChange={(e) => setFormFather(e.target.value)}
+                      placeholder="e.g. Eddard Stark"
+                      className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-neutral-100 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-neutral-300 font-medium mb-1">Mother</label>
+                    <input
+                      type="text"
+                      value={formMother}
+                      onChange={(e) => setFormMother(e.target.value)}
+                      placeholder="e.g. Catelyn Tully"
+                      className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-neutral-100 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
                 </div>
               )}
 

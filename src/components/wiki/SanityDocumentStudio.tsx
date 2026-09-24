@@ -36,7 +36,7 @@ import {
   deleteWikiDocument,
 } from '../../data/mockSanityData';
 import { HoverCardLink } from './HoverCardLink';
-import { WikiDocType, CharacterStatus } from '../../types/wiki';
+import { WikiDocType, CharacterStatus, CharacterSection } from '../../types/wiki';
 
 interface SanityDocumentStudioProps {
   onNavigate: (route: string, type?: string, slug?: string) => void;
@@ -52,6 +52,40 @@ type StudioDocType =
   | 'species'
   | 'book'
   | 'profession';
+
+const saveSelectedImageToRepo = async (file: File): Promise<string> => {
+  const fileName = file.name || `upload-${Date.now()}`;
+
+  try {
+    if ('showSaveFilePicker' in window) {
+      const handle = await (window as any).showSaveFilePicker({
+        suggestedName: fileName,
+        types: [
+          {
+            description: 'Image Files',
+            accept: {
+              'image/*': ['.png', '.jpg', '.jpeg', '.webp', '.gif'],
+            },
+          },
+        ],
+      });
+      const writable = await handle.createWritable();
+      await writable.write(file);
+      await writable.close();
+      return fileName;
+    }
+  } catch (error) {
+    console.info('File save dialog cancelled or unsupported:', error);
+  }
+
+  const reader = new FileReader();
+  const dataUrl = await new Promise<string>((resolve) => {
+    reader.onload = () => resolve(typeof reader.result === 'string' ? reader.result : '');
+    reader.readAsDataURL(file);
+  });
+
+  return dataUrl || fileName;
+};
 
 export const SanityDocumentStudio: React.FC<SanityDocumentStudioProps> = ({ onNavigate }) => {
   const [selectedType, setSelectedType] = useState<StudioDocType>('character');
@@ -74,10 +108,17 @@ export const SanityDocumentStudio: React.FC<SanityDocumentStudioProps> = ({ onNa
   const [charHouseRef, setCharHouseRef] = useState('house-stark');
   const [charLocationRef, setCharLocationRef] = useState('loc-winterfell');
   const [houseMotto, setHouseMotto] = useState('Winter is Coming');
-  const [placeRegion, setPlaceRegion] = useState('The North');
+  const [placeRegion, setPlaceRegion] = useState('');
+  const [placeType, setPlaceType] = useState('');
   const [eventDate, setEventDate] = useState('298 AC');
   const [magicDanger, setMagicDanger] = useState('Potent');
   const [bookReleaseOrder, setBookReleaseOrder] = useState('1');
+
+  const [characterSections, setCharacterSections] = useState<CharacterSection[]>([
+    { title: 'Appearance and Character', content: 'Tall, lean, and watchful, with a grim expression shaped by duty and loss.\n\nSteadfast, loyal, and fiercely protective of the people he cares for.' },
+    { title: 'History', content: 'Raised at Winterfell as the acknowledged bastard of Eddard Stark, he joined the Night\'s Watch at the ancient Wall.' },
+    { title: 'Recent Events', content: 'After the long winter and the war against the dead, he returned to lead the North and protect the realm from dark forces.' },
+  ]);
 
   // Portable Text body blocks
   const [paragraphs, setParagraphs] = useState<string[]>([
@@ -126,9 +167,25 @@ export const SanityDocumentStudio: React.FC<SanityDocumentStudioProps> = ({ onNa
     if (doc.status) setCharStatus(doc.status);
     if (doc.motto) setHouseMotto(doc.motto);
     if (doc.region) setPlaceRegion(doc.region);
+    if (doc.locationType) setPlaceType(doc.locationType);
     if (doc.date) setEventDate(doc.date);
     if (doc.dangerLevel) setMagicDanger(doc.dangerLevel);
     if (doc.releaseOrder) setBookReleaseOrder(String(doc.releaseOrder));
+
+    if (doc._type === 'character') {
+      const sections = Array.isArray(doc.sections) && doc.sections.length > 0
+        ? doc.sections
+        : [
+            { title: 'Appearance and Character', content: [doc.appearance, doc.character].filter(Boolean).join('\n\n') },
+            { title: 'History', content: doc.history || '' },
+            { title: 'Recent Events', content: doc.recentEvents || '' },
+          ].filter((section) => section.content && section.content.trim());
+      setCharacterSections(sections.length > 0 ? sections : [
+        { title: 'Appearance and Character', content: '' },
+        { title: 'History', content: '' },
+        { title: 'Recent Events', content: '' },
+      ]);
+    }
 
     // Extract text from portable text blocks if present
     const blocks = doc.biography || doc.details || doc.history || doc.description || doc.synopsis || doc.traditions || doc.rulesAndArtifacts;
@@ -154,6 +211,13 @@ export const SanityDocumentStudio: React.FC<SanityDocumentStudioProps> = ({ onNa
     setDocImage('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80');
     setQuickSummary('');
     setHouseMotto('');
+    setPlaceRegion('');
+    setPlaceType('');
+    setCharacterSections([
+      { title: 'Appearance and Character', content: '' },
+      { title: 'History', content: '' },
+      { title: 'Recent Events', content: '' },
+    ]);
     setParagraphs(['']);
   };
 
@@ -184,17 +248,34 @@ export const SanityDocumentStudio: React.FC<SanityDocumentStudioProps> = ({ onNa
     };
 
     if (selectedType === 'character') {
+      const validSections = characterSections
+        .filter((section) => section.title.trim() && section.content.trim())
+        .map((section) => ({
+          _key: `section-${section.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${Date.now()}`,
+          title: section.title.trim(),
+          content: section.content.trim(),
+        }));
+
+      const appearanceSection = validSections.find((section) => section.title.toLowerCase() === 'appearance and character');
+      const historySection = validSections.find((section) => section.title.toLowerCase() === 'history');
+      const recentEventsSection = validSections.find((section) => section.title.toLowerCase() === 'recent events');
+
       newDoc.status = charStatus;
       newDoc.house = { _ref: charHouseRef };
       newDoc.location = { _ref: charLocationRef };
+      newDoc.appearance = appearanceSection?.content || '';
+      newDoc.character = appearanceSection?.content || '';
+      newDoc.history = historySection?.content || '';
+      newDoc.recentEvents = recentEventsSection?.content || '';
+      newDoc.sections = validSections;
       newDoc.biography = textBlocks;
     } else if (selectedType === 'house') {
       newDoc.motto = houseMotto;
       newDoc.sigil = docImage;
       newDoc.history = textBlocks;
     } else if (selectedType === 'place') {
-      newDoc.region = placeRegion || 'The North';
-      newDoc.locationType = 'Castle / Region';
+      newDoc.region = placeRegion.trim();
+      newDoc.locationType = placeType;
       newDoc.mapImage = docImage;
       newDoc.details = textBlocks;
     } else if (selectedType === 'event') {
@@ -481,7 +562,7 @@ export const SanityDocumentStudio: React.FC<SanityDocumentStudioProps> = ({ onNa
             {/* Row 2: Image URL + Thumbnail Preview */}
             <div>
               <label className="block text-neutral-300 font-medium mb-1 flex items-center justify-between">
-                <span>Featured Image / Sigil / Map URL</span>
+                <span>Featured Image / Sigil / Map</span>
                 <span className="text-[10px] text-neutral-500 font-mono">schema: image</span>
               </label>
               <div className="flex gap-3 items-center">
@@ -492,6 +573,23 @@ export const SanityDocumentStudio: React.FC<SanityDocumentStudioProps> = ({ onNa
                   placeholder="https://images.unsplash.com/..."
                   className="flex-1 bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-neutral-100 font-mono text-xs placeholder-neutral-500 focus:outline-none focus:border-amber-500"
                 />
+                <label className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-neutral-700 bg-neutral-950 text-neutral-200 cursor-pointer hover:border-amber-500">
+                  <ImageIcon className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Choose File</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={async (event) => {
+                      const file = event.target.files?.[0];
+                      if (!file) return;
+
+                      const savedValue = await saveSelectedImageToRepo(file);
+                      setDocImage(savedValue || file.name);
+                      event.target.value = '';
+                    }}
+                  />
+                </label>
                 <img
                   src={docImage}
                   alt="Preview"
@@ -530,6 +628,95 @@ export const SanityDocumentStudio: React.FC<SanityDocumentStudioProps> = ({ onNa
                 className="w-full bg-neutral-950 border border-neutral-800 rounded-lg p-3 text-neutral-100 placeholder-neutral-500 focus:outline-none focus:border-amber-500 leading-relaxed"
               />
             </div>
+
+            {selectedType === 'character' && (
+              <div className="space-y-4 p-4 rounded-xl bg-neutral-950/60 border border-neutral-800">
+                <div className="flex items-center justify-between">
+                  <label className="text-neutral-300 font-medium flex items-center gap-1.5">
+                    <FileText className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Character Sections</span>
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setCharacterSections([...characterSections, { title: `New Section ${characterSections.length + 1}`, content: '' }])}
+                    className="text-[11px] font-mono text-amber-400 hover:underline flex items-center gap-1"
+                  >
+                    <Plus className="w-3 h-3" />
+                    <span>Add Section</span>
+                  </button>
+                </div>
+
+                {characterSections.map((section, index) => (
+                  <div key={`${section.title}-${index}`} className="space-y-2 rounded-lg border border-neutral-800 bg-neutral-900/60 p-3">
+                    <input
+                      type="text"
+                      value={section.title}
+                      onChange={(e) => {
+                        const updated = [...characterSections];
+                        updated[index] = { ...updated[index], title: e.target.value };
+                        setCharacterSections(updated);
+                      }}
+                      className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-2 text-neutral-100"
+                    />
+                    <textarea
+                      rows={4}
+                      value={section.content}
+                      onChange={(e) => {
+                        const updated = [...characterSections];
+                        updated[index] = { ...updated[index], content: e.target.value };
+                        setCharacterSections(updated);
+                      }}
+                      placeholder="Write a paragraph for this section..."
+                      className="w-full bg-neutral-950 border border-neutral-800 rounded-lg p-3 text-neutral-200 placeholder-neutral-600 focus:outline-none focus:border-amber-500 leading-relaxed"
+                    />
+                    {characterSections.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => setCharacterSections(characterSections.filter((_, idx) => idx !== index))}
+                        className="text-[11px] font-mono text-red-400 hover:underline"
+                      >
+                        Remove section
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {selectedType === 'place' && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-xl bg-neutral-950/60 border border-neutral-800">
+                <div>
+                  <label className="block text-neutral-400 text-[11px] mb-1">Place Type *</label>
+                  <select
+                    required
+                    value={placeType}
+                    onChange={(e) => setPlaceType(e.target.value)}
+                    className="w-full bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 text-neutral-200"
+                  >
+                    <option value="">Select type</option>
+                    <option value="Castle">Castle</option>
+                    <option value="City">City</option>
+                    <option value="Village">Village</option>
+                    <option value="Capital">Capital</option>
+                    <option value="Kingdom">Kingdom</option>
+                    <option value="Fortress">Fortress</option>
+                    <option value="Ruins">Ruins</option>
+                    <option value="Landmark">Landmark</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-neutral-400 text-[11px] mb-1">Region / Kingdom *</label>
+                  <input
+                    required
+                    type="text"
+                    value={placeRegion}
+                    onChange={(e) => setPlaceRegion(e.target.value)}
+                    placeholder="e.g. The North"
+                    className="w-full bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 text-neutral-200 placeholder-neutral-600"
+                  />
+                </div>
+              </div>
+            )}
 
             {/* Row 4: Schema-Specific Reference Selectors */}
             {selectedType === 'character' && (

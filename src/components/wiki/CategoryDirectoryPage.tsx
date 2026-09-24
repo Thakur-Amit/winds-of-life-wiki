@@ -73,6 +73,7 @@ export const CategoryDirectoryPage: React.FC<CategoryDirectoryPageProps> = ({
   const [modalName, setModalName] = useState('');
   const [modalSlug, setModalSlug] = useState('');
   const [modalSecondary, setModalSecondary] = useState('');
+  const [modalPlaceType, setModalPlaceType] = useState('');
   const [modalImage, setModalImage] = useState('');
   const [modalSummary, setModalSummary] = useState('');
   const [modalDetails, setModalDetails] = useState('');
@@ -302,6 +303,7 @@ export const CategoryDirectoryPage: React.FC<CategoryDirectoryPageProps> = ({
     setModalName('');
     setModalSlug('');
     setModalSecondary('');
+    setModalPlaceType('');
     setModalImage('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80');
     setModalSummary('');
     setModalDetails('');
@@ -315,6 +317,7 @@ export const CategoryDirectoryPage: React.FC<CategoryDirectoryPageProps> = ({
     setModalName(item.name);
     setModalSlug(item.slug);
     setModalSecondary(item.secondary || item.badge || '');
+    setModalPlaceType(item.rawDoc?.locationType || '');
     setModalImage(item.image || '');
     setModalSummary(item.quickSummary || '');
 
@@ -376,8 +379,8 @@ export const CategoryDirectoryPage: React.FC<CategoryDirectoryPageProps> = ({
     };
 
     if (categoryMeta.docType === 'location') {
-      newDoc.region = modalSecondary.trim() || 'Westeros';
-      newDoc.locationType = 'Castle / Settlement';
+      newDoc.region = modalSecondary.trim();
+      newDoc.locationType = modalPlaceType;
       newDoc.mapImage = modalImage.trim() || undefined;
       newDoc.details = textBlocks;
     } else if (categoryMeta.docType === 'house') {
@@ -714,6 +717,28 @@ export const CategoryDirectoryPage: React.FC<CategoryDirectoryPageProps> = ({
                   />
                 </div>
               </div>
+
+              {categoryMeta.docType === 'location' && (
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Place Type *</label>
+                  <select
+                    required
+                    value={modalPlaceType}
+                    onChange={(e) => setModalPlaceType(e.target.value)}
+                    className="w-full bg-neutral-950 border border-neutral-800 rounded-lg p-2.5 text-neutral-200 focus:outline-none focus:border-amber-500"
+                  >
+                    <option value="">Select type</option>
+                    <option value="Castle">Castle</option>
+                    <option value="City">City</option>
+                    <option value="Village">Village</option>
+                    <option value="Capital">Capital</option>
+                    <option value="Kingdom">Kingdom</option>
+                    <option value="Fortress">Fortress</option>
+                    <option value="Ruins">Ruins</option>
+                    <option value="Landmark">Landmark</option>
+                  </select>
+                </div>
+              )}
 
               <div>
                 <label className="block text-neutral-300 font-semibold mb-1">

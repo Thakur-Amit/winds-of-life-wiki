@@ -1,5 +1,6 @@
 import {
   CharacterDoc,
+  CharacterSection,
   HouseDoc,
   LocationDoc,
   PlaceDoc,
@@ -11,6 +12,55 @@ import {
   ProfessionDoc,
 } from '../types/wiki';
 import { getWorldTimeline } from './timelineData';
+
+export function buildCharacterSections(
+  data: Partial<Pick<CharacterDoc, 'appearance' | 'character' | 'history' | 'recentEvents' | 'sections' | 'quickSummary' | 'biography'>> = {}
+): CharacterSection[] {
+  const combinedSections: CharacterSection[] = [];
+  const seenTitles = new Set<string>();
+
+  const pushSection = (title: string, content?: string) => {
+    if (!title || !content || !content.trim()) return;
+    const normalizedTitle = title.trim();
+    if (seenTitles.has(normalizedTitle.toLowerCase())) return;
+    seenTitles.add(normalizedTitle.toLowerCase());
+    combinedSections.push({ title: normalizedTitle, content: content.trim() });
+  };
+
+  const extractPortableTextText = (blocks: any[] | undefined): string => {
+    if (!Array.isArray(blocks)) return '';
+    return blocks
+      .map((block: any) => {
+        if (Array.isArray(block?.children)) {
+          return block.children.map((child: any) => child?.text || '').join(' ');
+        }
+        if (typeof block?.text === 'string') return block.text;
+        return '';
+      })
+      .filter(Boolean)
+      .join('\n\n')
+      .trim();
+  };
+
+  const fallbackBiographyText = extractPortableTextText((data as any)?.biography);
+  const appearanceContent = [data.appearance, data.character].filter(Boolean).join('\n\n').trim();
+  const historyContent = typeof data.history === 'string' ? data.history.trim() : (typeof data.history === 'object' ? extractPortableTextText(data.history as any) : '');
+  const recentContent = typeof data.recentEvents === 'string' ? data.recentEvents.trim() : '';
+
+  pushSection('Appearance and Character', appearanceContent || (data.quickSummary || fallbackBiographyText || ''));
+  pushSection('History', historyContent || fallbackBiographyText || data.quickSummary || '');
+  pushSection('Recent Events', recentContent || '');
+
+  if (Array.isArray(data.sections)) {
+    data.sections
+      .filter((section) => section && typeof section.title === 'string' && typeof section.content === 'string')
+      .forEach((section) => {
+        pushSection(section.title, section.content);
+      });
+  }
+
+  return combinedSections;
+}
 
 /**
  * Rich Lore-Heavy Dataset for A Wiki of Ice and Fire / Worldbuilding Wiki
@@ -2282,6 +2332,13 @@ export function normalizeWikiDocument(doc: any): any {
   }
   if (Array.isArray(d.professions)) {
     d.professions = d.professions.map((p: any) => ({ ...p, slug: { current: getDocSlug(p) } }));
+  }
+  if (d._type === 'character') {
+    d.sections = buildCharacterSections(d);
+    if (!d.appearance && d.sections[0]?.content) {
+      const first = d.sections[0]?.content || '';
+      d.appearance = first;
+    }
   }
   return d;
 }

@@ -33,8 +33,19 @@ export const location = defineType({
       name: 'locationType',
       title: 'Location Type',
       type: 'string',
-      description: 'e.g., "Castle / Fortress", "Metropolis / Port", "Ruins", "Natural Wonder"',
-      initialValue: 'Castle / Fortress',
+      options: {
+        list: [
+          { title: 'Castle', value: 'Castle' },
+          { title: 'City', value: 'City' },
+          { title: 'Village', value: 'Village' },
+          { title: 'Capital', value: 'Capital' },
+          { title: 'Kingdom', value: 'Kingdom' },
+          { title: 'Fortress', value: 'Fortress' },
+          { title: 'Ruins', value: 'Ruins' },
+          { title: 'Landmark', value: 'Landmark' },
+        ],
+      },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'ruler',

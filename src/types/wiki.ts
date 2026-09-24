@@ -76,6 +76,12 @@ export interface ProfessionDoc {
   count?: number;
 }
 
+export interface CharacterSection {
+  _key?: string;
+  title: string;
+  content: string;
+}
+
 export interface CharacterDoc {
   _id: string;
   _type: 'character';
@@ -108,6 +114,11 @@ export interface CharacterDoc {
   spouse?: { _id: string; name: string; slug: { current: string } };
   children?: Array<{ _id: string; name: string; slug: { current: string } }>;
   allegiance?: string;
+  appearance?: string;
+  character?: string;
+  history?: string;
+  recentEvents?: string;
+  sections?: CharacterSection[];
   quickSummary: string;
   biography: PortableTextBlock[];
 }
@@ -146,6 +157,7 @@ export interface PlaceDoc {
   name: string;
   slug: { current: string };
   region: string;
+  locationType: string;
   image: string;
   ruler?: {
     _id: string;

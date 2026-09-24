@@ -3,7 +3,7 @@ import { WikiDoc } from '../../types/wiki';
 import { PortableTextRenderer } from './PortableTextRenderer';
 import { WikiInfobox } from './WikiInfobox';
 import { WikiFooter } from './WikiFooter';
-import { deleteWikiDocument } from '../../data/mockSanityData';
+import { buildCharacterSections, deleteWikiDocument } from '../../data/mockSanityData';
 import {
   BookOpen,
   ChevronRight,
@@ -51,6 +51,7 @@ export const WikiArticleView: React.FC<WikiArticleViewProps> = ({
       : undefined;
 
   const docTitle = document.name || ('title' in document ? (document as any).title : '');
+  const characterSections = document._type === 'character' ? buildCharacterSections(document as any) : [];
 
   return (
     <div className="min-h-screen bg-neutral-950 text-neutral-200 flex flex-col font-sans">
@@ -179,13 +180,28 @@ export const WikiArticleView: React.FC<WikiArticleViewProps> = ({
                 </span>
               </div>
 
-              {/* Portable Text with Custom Internal Links and Hover Cards */}
-              <div className="text-neutral-200">
-                <PortableTextRenderer
-                  value={portableTextContent}
-                  onNavigate={(type, slug) => onNavigate('wiki', type, slug)}
-                />
-              </div>
+              {document._type === 'character' && characterSections.length > 0 ? (
+                <div className="space-y-6 text-neutral-200">
+                  {characterSections.map((section) => (
+                    <section key={section.title} className="border border-neutral-800 rounded-2xl bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-950 p-5 shadow-inner shadow-neutral-950/50">
+                      <h3 className="text-lg font-bold font-serif-title text-amber-300 mb-3 pb-2 border-b border-neutral-800 flex items-center gap-2">
+                        <span className="inline-block w-2 h-2 rounded-full bg-amber-400" />
+                        {section.title}
+                      </h3>
+                      <div className="space-y-3 text-sm leading-7 text-neutral-200 whitespace-pre-line">
+                        {section.content}
+                      </div>
+                    </section>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-neutral-200">
+                  <PortableTextRenderer
+                    value={portableTextContent}
+                    onNavigate={(type, slug) => onNavigate('wiki', type, slug)}
+                  />
+                </div>
+              )}
 
               {/* Interactive Lineage Link if Character */}
               {document._type === 'character' && (

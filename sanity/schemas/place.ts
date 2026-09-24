@@ -31,6 +31,24 @@ export const place = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'locationType',
+      title: 'Place Type',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Castle', value: 'Castle' },
+          { title: 'City', value: 'City' },
+          { title: 'Village', value: 'Village' },
+          { title: 'Capital', value: 'Capital' },
+          { title: 'Kingdom', value: 'Kingdom' },
+          { title: 'Fortress', value: 'Fortress' },
+          { title: 'Ruins', value: 'Ruins' },
+          { title: 'Landmark', value: 'Landmark' },
+        ],
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'image',
       title: 'Map / Architectural Image',
       type: 'image',

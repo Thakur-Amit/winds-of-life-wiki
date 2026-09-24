@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { FamilyTreeNodeData } from '../../types/wiki';
-import { Crown, Heart, Skull, Shield } from 'lucide-react';
+import { Crown, Skull, Shield } from 'lucide-react';
 
 export const FamilyTreeNode = memo(({ data }: { data: FamilyTreeNodeData & { onSelect: (slug: string) => void } }) => {
   const isDeceased = data.status === 'Deceased';
@@ -74,19 +74,6 @@ export const FamilyTreeNode = memo(({ data }: { data: FamilyTreeNodeData & { onS
           </div>
         </div>
       </div>
-
-      {/* Spouse indicator if present */}
-      {data.spouseName && (
-        <div className="mt-2.5 pt-2 border-t border-neutral-800/80 flex items-center justify-between text-[11px] text-neutral-400">
-          <span className="flex items-center gap-1">
-            <Heart className="w-3 h-3 text-red-400" />
-            <span>Spouse:</span>
-          </span>
-          <span className="font-medium text-neutral-200 truncate max-w-[130px]">
-            {data.spouseName}
-          </span>
-        </div>
-      )}
 
       {/* Click prompt */}
       <div className="mt-2 text-[10px] text-amber-500/70 group-hover:text-amber-400 font-medium text-right transition-colors">

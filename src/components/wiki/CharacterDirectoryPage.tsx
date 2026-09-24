@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Search,
   Filter,
@@ -16,9 +16,9 @@ import {
   BookOpen,
 } from 'lucide-react';
 import {
-  mockCharacters,
   mockProfessions,
   mockHouses,
+  getAllCharacters,
   getDocSlug,
 } from '../../data/mockSanityData';
 import { CharacterDoc } from '../../types/wiki';
@@ -41,22 +41,31 @@ export const CharacterDirectoryPage: React.FC<CharacterDirectoryPageProps> = ({ 
   const [selectedStatusFilter, setSelectedStatusFilter] = useState<string>('All');
   const [selectedProfessionSlug, setSelectedProfessionSlug] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'cards' | 'ledger'>('cards');
+  const [syncVersion, setSyncVersion] = useState(0);
+
+  useEffect(() => {
+    const handleUpdate = () => setSyncVersion((version) => version + 1);
+    window.addEventListener('citadel-wiki-updated', handleUpdate);
+    return () => window.removeEventListener('citadel-wiki-updated', handleUpdate);
+  }, []);
+
+  const characters = useMemo(() => getAllCharacters(), [syncVersion]);
 
   // Compute character counts per letter for the alphabet bar
   const letterCounts = useMemo(() => {
     const counts: Record<string, number> = {};
-    mockCharacters.forEach((c) => {
+    characters.forEach((c) => {
       const firstChar = c.name.trim()[0]?.toUpperCase() || '';
       if (firstChar) {
         counts[firstChar] = (counts[firstChar] || 0) + 1;
       }
     });
     return counts;
-  }, []);
+  }, [characters]);
 
   // Filter characters
   const filteredCharacters = useMemo(() => {
-    return mockCharacters
+    return characters
       .filter((char) => {
         // Search Filter
         const q = directorySearch.toLowerCase().trim();
@@ -97,6 +106,7 @@ export const CharacterDirectoryPage: React.FC<CharacterDirectoryPageProps> = ({ 
     selectedHouseFilter,
     selectedStatusFilter,
     selectedProfessionSlug,
+    characters,
   ]);
 
   // Group characters alphabetically by letter
@@ -130,7 +140,7 @@ export const CharacterDirectoryPage: React.FC<CharacterDirectoryPageProps> = ({ 
             </span>
           </nav>
           <span className="text-neutral-500 font-mono text-[11px]">
-            {filteredCharacters.length} of {mockCharacters.length} personages shown
+            {filteredCharacters.length} of {characters.length} personages shown
           </span>
         </div>
       </div>
@@ -275,7 +285,7 @@ export const CharacterDirectoryPage: React.FC<CharacterDirectoryPageProps> = ({ 
               </span>
               {ALPHABET.map((letter) => {
                 const isSelected = selectedLetter === letter;
-                const count = letter === 'All' ? mockCharacters.length : letterCounts[letter] || 0;
+                const count = letter === 'All' ? characters.length : letterCounts[letter] || 0;
                 const isDisabled = letter !== 'All' && count === 0;
 
                 return (

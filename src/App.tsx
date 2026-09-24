@@ -5,8 +5,8 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import {
-  mockCharacters,
   mockProfessions,
+  getAllCharacters,
   findDocByTypeAndSlug,
 } from './data/mockSanityData';
 import { TopNavbar } from './components/wiki/TopNavbar';
@@ -24,7 +24,7 @@ export default function App() {
   const [currentRoute, setCurrentRoute] = useState<string>('home');
   const [categorySlug, setCategorySlug] = useState<string>('places');
   const [wikiType, setWikiType] = useState<string>('character');
-  const [wikiSlug, setWikiSlug] = useState<string>('eddard-stark');
+  const [wikiSlug, setWikiSlug] = useState<string>('');
 
   // Dynamic Professions managed in Sanity CMS Studio
   const [professions, setProfessions] = useState<ProfessionDoc[]>(mockProfessions);
@@ -105,7 +105,7 @@ export default function App() {
 
   // Resolve current active wiki document
   const currentDoc = useMemo(() => {
-    return findDocByTypeAndSlug(wikiType, wikiSlug) || mockCharacters[0];
+    return findDocByTypeAndSlug(wikiType, wikiSlug) || getAllCharacters()[0] || null;
   }, [wikiType, wikiSlug]);
 
   return (
