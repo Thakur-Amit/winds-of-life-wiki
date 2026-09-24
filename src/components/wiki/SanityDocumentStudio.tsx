@@ -107,6 +107,19 @@ export const SanityDocumentStudio: React.FC<SanityDocumentStudioProps> = ({ onNa
   const [charStatus, setCharStatus] = useState<CharacterStatus>('Alive');
   const [charHouseRef, setCharHouseRef] = useState('house-stark');
   const [charLocationRef, setCharLocationRef] = useState('loc-winterfell');
+  const [charTitles, setCharTitles] = useState('');
+  const [charAliases, setCharAliases] = useState('');
+  const [charBorn, setCharBorn] = useState('');
+  const [charDied, setCharDied] = useState('');
+  const [charCulture, setCharCulture] = useState('');
+  const [charAllegiance, setCharAllegiance] = useState('');
+  const [charFatherRef, setCharFatherRef] = useState('');
+  const [charMotherRef, setCharMotherRef] = useState('');
+  const [charSpouseRef, setCharSpouseRef] = useState('');
+  const [charFatherName, setCharFatherName] = useState('');
+  const [charMotherName, setCharMotherName] = useState('');
+  const [charSpouseName, setCharSpouseName] = useState('');
+  const [charChildrenNames, setCharChildrenNames] = useState('');
   const [houseMotto, setHouseMotto] = useState('Winter is Coming');
   const [placeRegion, setPlaceRegion] = useState('');
   const [placeType, setPlaceType] = useState('');
@@ -129,8 +142,8 @@ export const SanityDocumentStudio: React.FC<SanityDocumentStudioProps> = ({ onNa
   // Listen to wiki updates to refresh document lists instantly
   useEffect(() => {
     const handleUpdate = () => setSyncVersion((v) => v + 1);
-    window.addEventListener('citadel-wiki-updated', handleUpdate);
-    return () => window.removeEventListener('citadel-wiki-updated', handleUpdate);
+    window.addEventListener('droplet-spire-wiki-updated', handleUpdate);
+    return () => window.removeEventListener('droplet-spire-wiki-updated', handleUpdate);
   }, []);
 
   // Live collections based on syncVersion
@@ -165,6 +178,19 @@ export const SanityDocumentStudio: React.FC<SanityDocumentStudioProps> = ({ onNa
     setDocImage(doc.image || doc.sigil || doc.mapImage || doc.coverImage || '');
     setQuickSummary(doc.quickSummary || '');
     if (doc.status) setCharStatus(doc.status);
+    setCharTitles(Array.isArray(doc.titles) ? doc.titles.join(', ') : '');
+    setCharAliases(Array.isArray(doc.aliases) ? doc.aliases.join(', ') : '');
+    setCharBorn(doc.born || '');
+    setCharDied(doc.died || '');
+    setCharCulture(doc.culture || '');
+    setCharAllegiance(doc.allegiance || '');
+    setCharFatherRef(doc.father?._id || '');
+    setCharMotherRef(doc.mother?._id || '');
+    setCharSpouseRef(doc.spouse?._id || '');
+    setCharFatherName(doc.father?.name || '');
+    setCharMotherName(doc.mother?.name || '');
+    setCharSpouseName(doc.spouse?.name || '');
+    setCharChildrenNames(Array.isArray(doc.children) ? doc.children.map((child: any) => child.name).join(', ') : '');
     if (doc.motto) setHouseMotto(doc.motto);
     if (doc.region) setPlaceRegion(doc.region);
     if (doc.locationType) setPlaceType(doc.locationType);
@@ -210,6 +236,19 @@ export const SanityDocumentStudio: React.FC<SanityDocumentStudioProps> = ({ onNa
     setDocSlug('');
     setDocImage('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80');
     setQuickSummary('');
+    setCharTitles('');
+    setCharAliases('');
+    setCharBorn('');
+    setCharDied('');
+    setCharCulture('');
+    setCharAllegiance('');
+    setCharFatherRef('');
+    setCharMotherRef('');
+    setCharSpouseRef('');
+    setCharFatherName('');
+    setCharMotherName('');
+    setCharSpouseName('');
+    setCharChildrenNames('');
     setHouseMotto('');
     setPlaceRegion('');
     setPlaceType('');
@@ -261,8 +300,32 @@ export const SanityDocumentStudio: React.FC<SanityDocumentStudioProps> = ({ onNa
       const recentEventsSection = validSections.find((section) => section.title.toLowerCase() === 'recent events');
 
       newDoc.status = charStatus;
+      newDoc.titles = charTitles.split(',').map((value) => value.trim()).filter(Boolean);
+      newDoc.aliases = charAliases.split(',').map((value) => value.trim()).filter(Boolean);
+      newDoc.born = charBorn.trim() || undefined;
+      newDoc.died = charDied.trim() || undefined;
+      newDoc.culture = charCulture.trim() || undefined;
+      newDoc.allegiance = charAllegiance.trim() || undefined;
       newDoc.house = { _ref: charHouseRef };
       newDoc.location = { _ref: charLocationRef };
+      newDoc.father = charFatherRef ? { _ref: charFatherRef } : undefined;
+      newDoc.mother = charMotherRef ? { _ref: charMotherRef } : undefined;
+      newDoc.spouse = charSpouseRef ? { _ref: charSpouseRef } : undefined;
+      const makeCharacterRelation = (name: string, ref: string) => {
+        const cleanName = name.trim();
+        if (!cleanName) return undefined;
+        const matched = charactersList.find((character) => character._id === ref || character.name.toLowerCase() === cleanName.toLowerCase());
+        return matched
+          ? { _id: matched._id, _type: 'character', name: matched.name, slug: matched.slug }
+          : { _id: `custom-character-${cleanName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`, _type: 'character', name: cleanName, slug: { current: cleanName.toLowerCase().replace(/[^a-z0-9]+/g, '-') } };
+      };
+      newDoc.father = makeCharacterRelation(charFatherName, charFatherRef);
+      newDoc.mother = makeCharacterRelation(charMotherName, charMotherRef);
+      newDoc.spouse = makeCharacterRelation(charSpouseName, charSpouseRef);
+      newDoc.children = charChildrenNames
+        .split(',')
+        .map((name) => makeCharacterRelation(name, ''))
+        .filter(Boolean);
       newDoc.appearance = appearanceSection?.content || '';
       newDoc.character = appearanceSection?.content || '';
       newDoc.history = historySection?.content || '';
@@ -285,7 +348,7 @@ export const SanityDocumentStudio: React.FC<SanityDocumentStudioProps> = ({ onNa
       newDoc.dangerLevel = magicDanger;
       newDoc.rulesAndArtifacts = textBlocks;
     } else if (selectedType === 'species') {
-      newDoc.habitat = placeRegion || 'Westeros';
+      newDoc.habitat = placeRegion || 'Antos';
       newDoc.status = 'Endangered / Rare';
     } else if (selectedType === 'book') {
       newDoc.title = docName.trim();
@@ -630,6 +693,125 @@ export const SanityDocumentStudio: React.FC<SanityDocumentStudioProps> = ({ onNa
             </div>
 
             {selectedType === 'character' && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-xl bg-neutral-950/60 border border-neutral-800">
+                <div>
+                  <label className="block text-neutral-400 text-[11px] mb-1">Titles</label>
+                  <input
+                    type="text"
+                    value={charTitles}
+                    onChange={(e) => setCharTitles(e.target.value)}
+                    placeholder="e.g. King in the North, Lord Commander"
+                    className="w-full bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 text-neutral-200 placeholder-neutral-600"
+                  />
+                </div>
+                <div>
+                  <label className="block text-neutral-400 text-[11px] mb-1">Aliases</label>
+                  <input
+                    type="text"
+                    value={charAliases}
+                    onChange={(e) => setCharAliases(e.target.value)}
+                    placeholder="e.g. The White Wolf, Lord Snow"
+                    className="w-full bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 text-neutral-200 placeholder-neutral-600"
+                  />
+                </div>
+                <div>
+                  <label className="block text-neutral-400 text-[11px] mb-1">Born</label>
+                  <input
+                    type="text"
+                    value={charBorn}
+                    onChange={(e) => setCharBorn(e.target.value)}
+                    placeholder="e.g. 283 AC, Tower of Joy"
+                    className="w-full bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 text-neutral-200 placeholder-neutral-600"
+                  />
+                </div>
+                <div>
+                  <label className="block text-neutral-400 text-[11px] mb-1">Died</label>
+                  <input
+                    type="text"
+                    value={charDied}
+                    onChange={(e) => setCharDied(e.target.value)}
+                    placeholder="Leave blank if living"
+                    className="w-full bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 text-neutral-200 placeholder-neutral-600"
+                  />
+                </div>
+                <div>
+                  <label className="block text-neutral-400 text-[11px] mb-1">Culture</label>
+                  <input
+                    type="text"
+                    value={charCulture}
+                    onChange={(e) => setCharCulture(e.target.value)}
+                    placeholder="e.g. Northmen / Valyrian"
+                    className="w-full bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 text-neutral-200 placeholder-neutral-600"
+                  />
+                </div>
+                <div>
+                  <label className="block text-neutral-400 text-[11px] mb-1">Allegiance</label>
+                  <input
+                    type="text"
+                    value={charAllegiance}
+                    onChange={(e) => setCharAllegiance(e.target.value)}
+                    placeholder="e.g. House Stark / House Targaryen"
+                    className="w-full bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 text-neutral-200 placeholder-neutral-600"
+                  />
+                </div>
+                <div>
+                  <label className="block text-neutral-400 text-[11px] mb-1">Father</label>
+                  <input
+                    list="character-relation-options"
+                    value={charFatherName}
+                    onChange={(e) => {
+                      setCharFatherName(e.target.value);
+                      setCharFatherRef(charactersList.find((character) => character.name === e.target.value)?._id || '');
+                    }}
+                    placeholder="Select or type a name"
+                    className="w-full bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 text-neutral-200 placeholder-neutral-600"
+                  />
+                </div>
+                <div>
+                  <label className="block text-neutral-400 text-[11px] mb-1">Mother</label>
+                  <input
+                    list="character-relation-options"
+                    value={charMotherName}
+                    onChange={(e) => {
+                      setCharMotherName(e.target.value);
+                      setCharMotherRef(charactersList.find((character) => character.name === e.target.value)?._id || '');
+                    }}
+                    placeholder="Select or type a name"
+                    className="w-full bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 text-neutral-200 placeholder-neutral-600"
+                  />
+                </div>
+                <div>
+                  <label className="block text-neutral-400 text-[11px] mb-1">Spouse</label>
+                  <input
+                    list="character-relation-options"
+                    value={charSpouseName}
+                    onChange={(e) => {
+                      setCharSpouseName(e.target.value);
+                      setCharSpouseRef(charactersList.find((character) => character.name === e.target.value)?._id || '');
+                    }}
+                    placeholder="Select or type a name"
+                    className="w-full bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 text-neutral-200 placeholder-neutral-600"
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className="block text-neutral-400 text-[11px] mb-1">Children (comma separated)</label>
+                  <input
+                    list="character-relation-options"
+                    value={charChildrenNames}
+                    onChange={(e) => setCharChildrenNames(e.target.value)}
+                    placeholder="Select or type names, e.g. Robb Stark, Arya Stark"
+                    className="w-full bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 text-neutral-200 placeholder-neutral-600"
+                  />
+                </div>
+                <datalist id="character-relation-options">
+                  {charactersList.map((character) => (
+                    <option key={character._id} value={character.name} />
+                  ))}
+                </datalist>
+              </div>
+            )}
+
+            {selectedType === 'character' && (
               <div className="space-y-4 p-4 rounded-xl bg-neutral-950/60 border border-neutral-800">
                 <div className="flex items-center justify-between">
                   <label className="text-neutral-300 font-medium flex items-center gap-1.5">
@@ -850,7 +1032,7 @@ export const SanityDocumentStudio: React.FC<SanityDocumentStudioProps> = ({ onNa
               </div>
 
               <div className="p-3 rounded-lg bg-neutral-900 border border-neutral-800 text-xs text-neutral-300 leading-relaxed">
-                <span>Chronicled in the Citadel archives: </span>
+                <span>Chronicled in the droplet-spire archives: </span>
                 <HoverCardLink
                   data={{
                     _id: `studio-${docSlug}`,

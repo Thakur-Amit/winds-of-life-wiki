@@ -219,7 +219,7 @@ export const HoverCardLink: React.FC<HoverCardLinkProps> = ({
             {/* Quick Summary Preview */}
             <p className="text-xs text-neutral-300/90 leading-relaxed line-clamp-3 bg-neutral-950/50 p-2 rounded-lg border border-neutral-800/60">
               {data.quickSummary ||
-                'An ancient and storied subject chronicled in the Citadel Worldbuilding Codex.'}
+                'An ancient and storied subject chronicled in the droplet-spire Worldbuilding Codex.'}
             </p>
 
             {/* Click to Navigate Footer Action */}

@@ -546,7 +546,7 @@ export const INITIAL_BARATHEON_EDGES: Edge[] = [
   { id: 'e-robert-gendry', source: 'bara-robert', target: 'bara-gendry', type: 'smoothstep', style: { stroke: '#f59e0b', strokeWidth: 2 } },
 ];
 
-const FAMILY_TREE_STORAGE_KEY = 'citadel_family_trees';
+const FAMILY_TREE_STORAGE_KEY = 'droplet-spire_family_trees';
 
 // Initial Greyjoy Nodes & Edges
 export const INITIAL_GREYJOY_NODES: Node[] = [
@@ -884,7 +884,7 @@ export function saveHouseTree(houseId: string, tree: HouseTreeData): void {
     }
     allTrees[houseId] = tree;
     localStorage.setItem(FAMILY_TREE_STORAGE_KEY, JSON.stringify(allTrees));
-    window.dispatchEvent(new Event('citadel-family-tree-updated'));
+    window.dispatchEvent(new Event('droplet-spire-family-tree-updated'));
   } catch (e) {
     console.error('Failed to save house tree', e);
   }

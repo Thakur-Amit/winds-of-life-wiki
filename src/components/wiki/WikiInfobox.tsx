@@ -90,7 +90,7 @@ export const WikiInfobox: React.FC<WikiInfoboxProps> = ({ document, onNavigate }
           <p className="text-[11px] text-neutral-400 font-serif text-center mt-2 italic">
             {isCharacter && 'Depiction in Northern Chronicles'}
             {isHouse && 'Heraldic Sigil & Coat of Arms'}
-            {isLocation && 'Archival Citadel Map Snippet'}
+            {isLocation && 'Archival droplet-spire Map Snippet'}
             {isEvent && 'Chronicle of the Campaign'}
           </p>
         </div>

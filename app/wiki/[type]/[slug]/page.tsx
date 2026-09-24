@@ -73,7 +73,7 @@ export default async function WikiArticlePage({ params }: PageProps) {
           {/* Header Banner */}
           <div className="border-b border-neutral-800 pb-5 mb-6">
             <div className="flex items-center gap-2 text-xs font-mono uppercase text-amber-500 mb-1">
-              <span>Citadel Archives</span>
+              <span>droplet-spire Archives</span>
               <span>/</span>
               <span className="text-neutral-400">{doc._type}</span>
             </div>

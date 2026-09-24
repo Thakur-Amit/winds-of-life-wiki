@@ -49,12 +49,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
     const handleTimelineUpdate = () => loadTimeline();
     const handleWikiUpdate = () => setSyncVersion((v) => v + 1);
 
-    window.addEventListener('citadel-timeline-updated', handleTimelineUpdate);
-    window.addEventListener('citadel-wiki-updated', handleWikiUpdate);
+    window.addEventListener('droplet-spire-timeline-updated', handleTimelineUpdate);
+    window.addEventListener('droplet-spire-wiki-updated', handleWikiUpdate);
 
     return () => {
-      window.removeEventListener('citadel-timeline-updated', handleTimelineUpdate);
-      window.removeEventListener('citadel-wiki-updated', handleWikiUpdate);
+      window.removeEventListener('droplet-spire-timeline-updated', handleTimelineUpdate);
+      window.removeEventListener('droplet-spire-wiki-updated', handleWikiUpdate);
     };
   }, []);
 
@@ -142,7 +142,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             WINDS OF LIFE
           </h1>
           <p className="mt-4 text-base sm:text-lg text-neutral-300 max-w-2xl mx-auto font-sans leading-relaxed">
-            The definitive lore encyclopedia of Westeros, Essos, noble lineages, ancestral fortresses, and chronicles of the Known World.
+            The definitive lore encyclopedia of Antos, Eclind, noble lineages, ancestral fortresses, and chronicles of the Known World.
           </p>
 
           {/* Central Search Bar */}
@@ -206,42 +206,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             )}
           </div>
 
-          {/* Quick Shortcuts */}
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-xs">
-            <span className="text-neutral-500 font-mono text-[11px]">Popular:</span>
-            <button
-              onClick={() => onNavigate('wiki', 'character', 'jon-snow')}
-              className="px-2.5 py-1 rounded-lg bg-neutral-900/90 hover:bg-neutral-800 border border-neutral-800 text-neutral-300 hover:text-white transition-colors cursor-pointer"
-            >
-              Jon Snow
-            </button>
-            <button
-              onClick={() => onNavigate('wiki', 'house', 'house-stark')}
-              className="px-2.5 py-1 rounded-lg bg-neutral-900/90 hover:bg-neutral-800 border border-neutral-800 text-neutral-300 hover:text-white transition-colors cursor-pointer"
-            >
-              House Stark
-            </button>
-            <button
-              onClick={() => onNavigate('wiki', 'location', 'winterfell')}
-              className="px-2.5 py-1 rounded-lg bg-neutral-900/90 hover:bg-neutral-800 border border-neutral-800 text-neutral-300 hover:text-white transition-colors cursor-pointer"
-            >
-              Winterfell
-            </button>
-            <button
-              onClick={() => onNavigate('timeline')}
-              className="px-2.5 py-1 rounded-lg bg-neutral-900/90 hover:bg-neutral-800 border border-neutral-800 text-amber-300 hover:text-amber-200 transition-colors flex items-center gap-1 cursor-pointer"
-            >
-              <Calendar className="w-3 h-3 text-amber-400" />
-              <span>World Timeline</span>
-            </button>
-            <button
-              onClick={() => onNavigate('family-tree')}
-              className="px-2.5 py-1 rounded-lg bg-neutral-900/90 hover:bg-neutral-800 border border-neutral-800 text-amber-300 hover:text-amber-200 transition-colors flex items-center gap-1 cursor-pointer"
-            >
-              <GitFork className="w-3 h-3 text-amber-400" />
-              <span>Family Trees</span>
-            </button>
-          </div>
         </div>
       </section>
 
@@ -326,7 +290,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                 Winds of Life Lore Records
               </span>
               <h2 className="text-3xl font-black font-serif-title text-neutral-100 tracking-wide">
-                The Fabric of Westeros & The Known World
+                The Fabric of Antos & The Known World
               </h2>
               <p className="text-sm text-neutral-300 leading-relaxed">
                 The history of the Known World spans over twelve millennia, from the mythic Dawn Age when the mysterious Children of the Forest carved weeping faces into sacred weirwood trees, to the cataclysmic Long Night and Aegon's unification of the realm.
@@ -342,10 +306,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                 </div>
                 <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800">
                   <h4 className="text-sm font-bold font-serif text-amber-300 mb-1">
-                    The Citadel of Oldtown
+                    The droplet-spire of Oldtown
                   </h4>
                   <p>
-                    Seated along the Whispering Sound, the Citadel houses the Order of Maesters who measure seasons, preserve raven networks, and chronicle human history.
+                    Seated along the Whispering Sound, the droplet-spire houses the Order of Maesters who measure seasons, preserve raven networks, and chronicle human history.
                   </p>
                 </div>
               </div>

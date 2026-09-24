@@ -135,7 +135,7 @@ export const WikiArticleView: React.FC<WikiArticleViewProps> = ({
 
               <div className="hidden sm:flex items-center gap-2 text-xs text-neutral-400 font-mono pl-2 border-l border-neutral-800">
                 <Clock className="w-3.5 h-3.5 text-neutral-500" />
-                <span>Citadel Revised 305 AC</span>
+                <span>droplet-spire Revised 305 AC</span>
               </div>
             </div>
           </div>
@@ -173,7 +173,7 @@ export const WikiArticleView: React.FC<WikiArticleViewProps> = ({
               <div className="flex items-center justify-between border-b border-neutral-800 pb-3">
                 <h2 className="text-xs font-mono uppercase tracking-widest text-neutral-400 flex items-center gap-2">
                   <BookOpen className="w-4 h-4 text-amber-400" />
-                  <span>Citadel Historical Chronicle</span>
+                  <span>droplet-spire Historical Chronicle</span>
                 </h2>
                 <span className="text-[11px] font-mono text-amber-500/80">
                   Sanity Portable Text

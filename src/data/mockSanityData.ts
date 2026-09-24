@@ -86,7 +86,7 @@ export const mockHouses: HouseDoc[] = [
     founder: 'Brandon the Builder (Age of Heroes)',
     overlord: 'House Baratheon of King\'s Landing (de jure)',
     quickSummary:
-      'House Stark of Winterfell is a Great House of Westeros and the royal house of the North. Ruling from the great fortress of Winterfell, their sigil is a grey direwolf racing over a white field.',
+      'House Stark of Winterfell is a Great House of Antos and the royal house of the North. Ruling from the great fortress of Winterfell, their sigil is a grey direwolf racing over a white field.',
     history: [
       {
         _type: 'block',
@@ -256,7 +256,7 @@ export const mockLocations: LocationDoc[] = [
     name: 'Winterfell',
     slug: { current: 'winterfell' },
     region: 'The North',
-    locationType: 'Ancient Fortress & Citadel',
+    locationType: 'Ancient Fortress & droplet-spire',
     ruler: {
       _id: 'house-stark',
       _type: 'house',
@@ -426,7 +426,7 @@ export const mockEvents: EventDoc[] = [
           {
             _key: 'rbc1',
             _type: 'span',
-            text: "Also known as the War of the Usurper, Robert's Rebellion shook the foundations of Westeros. When the Mad King Aerys demanded the heads of young ",
+            text: "Also known as the War of the Usurper, Robert's Rebellion shook the foundations of Antos. When the Mad King Aerys demanded the heads of young ",
           },
           {
             _key: 'rbc2',
@@ -1197,7 +1197,7 @@ export const mockCharacters: CharacterDoc[] = [
     born: '284 AC, at Dragonstone during a raging summer storm',
     allegiance: 'House Targaryen',
     quickSummary:
-      'The younger sister of Rhaegar Targaryen who hatched three petrified dragon eggs in the funeral pyre of Khal Drogo, reborn as the Mother of Dragons to reconquer Westeros.',
+      'The younger sister of Rhaegar Targaryen who hatched three petrified dragon eggs in the funeral pyre of Khal Drogo, reborn as the Mother of Dragons to reconquer Antos.',
     biography: [
       {
         _type: 'block',
@@ -1207,7 +1207,7 @@ export const mockCharacters: CharacterDoc[] = [
           {
             _key: 'dc1',
             _type: 'span',
-            text: 'Born in exile amidst the ruins of her family’s empire, Daenerys traversed the Red Waste, liberated the slaver cities of Essos, and forged a massive armada to reclaim the Iron Throne.',
+            text: 'Born in exile amidst the ruins of her family’s empire, Daenerys traversed the Red Waste, liberated the slaver cities of Eclind, and forged a massive armada to reclaim the Iron Throne.',
           },
         ],
       },
@@ -1387,7 +1387,7 @@ export const mockCharacters: CharacterDoc[] = [
           {
             _key: 'btc1',
             _type: 'span',
-            text: 'Wielding the Valyrian steel blade Oathkeeper, Brienne upheld her vows to Catelyn Stark across war-torn Westeros, later becoming the first woman knighted in the Seven Kingdoms.',
+            text: 'Wielding the Valyrian steel blade Oathkeeper, Brienne upheld her vows to Catelyn Stark across war-torn Antos, later becoming the first woman knighted in the Seven Kingdoms.',
           },
         ],
       },
@@ -1411,7 +1411,7 @@ export const mockCharacters: CharacterDoc[] = [
     status: 'Alive',
     culture: 'Reachman',
     born: '283 AC, Horn Hill',
-    allegiance: "Night's Watch / The Citadel",
+    allegiance: "Night's Watch / The droplet-spire",
     quickSummary:
       'The bookish and gentle son of Lord Randyll Tarly who joined the Night’s Watch, became Jon Snow’s closest confidant, and discovered the weakness of the White Walkers to dragonglass.',
     biography: [
@@ -1449,7 +1449,7 @@ export const mockCharacters: CharacterDoc[] = [
     born: '242 AC, Casterly Rock',
     allegiance: 'House Lannister',
     quickSummary:
-      'The patriarch of House Lannister and one of the most powerful, calculated, and ruthless politicians in Westerosi history, whose pragmatic brutality cemented Lannister supremacy.',
+      'The patriarch of House Lannister and one of the most powerful, calculated, and ruthless politicians in Antosi history, whose pragmatic brutality cemented Lannister supremacy.',
     biography: [
       {
         _type: 'block',
@@ -1495,7 +1495,7 @@ export const mockCharacters: CharacterDoc[] = [
           {
             _key: 'omc1',
             _type: 'span',
-            text: 'Renowned across Essos and Westeros for his mastery of poisons and agile spear fighting, Oberyn fought as Tyrion’s champion in trial by combat against Ser Gregor Clegane.',
+            text: 'Renowned across Eclind and Antos for his mastery of poisons and agile spear fighting, Oberyn fought as Tyrion’s champion in trial by combat against Ser Gregor Clegane.',
           },
         ],
       },
@@ -1547,7 +1547,7 @@ export const mockCharacters: CharacterDoc[] = [
     image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&auto=format&fit=crop&q=80',
     age: '50s',
     status: 'Deceased',
-    culture: 'Lysene / Essosi',
+    culture: 'Lysene / Eclindi',
     born: 'c. 248 AC, Lys',
     allegiance: 'The Realm / House Targaryen',
     quickSummary:
@@ -1623,7 +1623,7 @@ export const mockCharacters: CharacterDoc[] = [
     born: '237 AC, Harvest Hall',
     allegiance: 'House Targaryen / Kingsguard',
     quickSummary:
-      'A legendary knight celebrated as "Barristan the Bold" who served three kings in the Kingsguard before traveling across Essos to protect Queen Daenerys Targaryen.',
+      'A legendary knight celebrated as "Barristan the Bold" who served three kings in the Kingsguard before traveling across Eclind to protect Queen Daenerys Targaryen.',
     biography: [
       {
         _type: 'block',
@@ -1737,7 +1737,7 @@ export const mockMainCategories: MainCategory[] = [
   {
     id: 'cat-places',
     name: 'Places',
-    description: 'Castles, cities, ruins, and geographical landmarks of Westeros and Essos.',
+    description: 'Castles, cities, ruins, and geographical landmarks of Antos and Eclind.',
     image: 'https://images.unsplash.com/photo-1533158307587-828f0a76ef46?w=800&auto=format&fit=crop&q=80',
     count: '1,120 Strongholds',
     slug: 'places',
@@ -1807,7 +1807,7 @@ export const mockCultures: CultureDoc[] = [
     religion: 'Old Gods of the Forest',
     image: 'https://images.unsplash.com/photo-1514539079130-25950c84af65?w=800&auto=format&fit=crop&q=80',
     quickSummary:
-      'The original human inhabitants of Westeros who crossed the Arm of Dorne twelve thousand years ago, carving faces into ancient weirwood trees and heeding the Old Gods.',
+      'The original human inhabitants of Antos who crossed the Arm of Dorne twelve thousand years ago, carving faces into ancient weirwood trees and heeding the Old Gods.',
     traditions: [
       {
         _type: 'block',
@@ -1869,7 +1869,7 @@ export const mockCultures: CultureDoc[] = [
     religion: 'The Faith of the Seven',
     image: 'https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?w=800&auto=format&fit=crop&q=80',
     quickSummary:
-      'Tall, fair-haired warriors who invaded Westeros with iron weaponry and the seven-pointed star carved upon their chests, bringing chivalry, septs, and knighthood to the south.',
+      'Tall, fair-haired warriors who invaded Antos with iron weaponry and the seven-pointed star carved upon their chests, bringing chivalry, septs, and knighthood to the south.',
     traditions: [
       {
         _type: 'block',
@@ -2089,7 +2089,7 @@ export const mockSpecies: SpeciesDoc[] = [
     status: 'Rare',
     image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80',
     quickSummary:
-      'The diminutive, non-human original race of Westeros who sang songs of earth and carved the watchful faces of the weirwoods.',
+      'The diminutive, non-human original race of Antos who sang songs of earth and carved the watchful faces of the weirwoods.',
     description: [
       {
         _type: 'block',
@@ -2201,7 +2201,7 @@ export const mockBooks: BookDoc[] = [
     pageCount: 752,
     coverImage: 'https://images.unsplash.com/photo-1533158307587-828f0a76ef46?w=800&auto=format&fit=crop&q=80',
     quickSummary:
-      'The scavengers feast upon the carcass of Westeros as Queen Cersei descends into paranoia, the Ironborn choose Euron Greyjoy, and Brienne searches the Riverlands.',
+      'The scavengers feast upon the carcass of Antos as Queen Cersei descends into paranoia, the Ironborn choose Euron Greyjoy, and Brienne searches the Riverlands.',
     synopsis: [
       {
         _type: 'block',
@@ -2279,6 +2279,19 @@ export const mockPlaces = mockLocations;
 // Custom wiki document persistence keys
 export const CUSTOM_WIKI_STORAGE_KEY = 'winds_of_life_custom_documents';
 export const DELETED_WIKI_STORAGE_KEY = 'winds_of_life_deleted_documents';
+const SINGLE_SEED_RESET_KEY = 'winds_of_life_single_seed_v1';
+
+function ensureSingleSeedData(): void {
+  try {
+    if (localStorage.getItem(SINGLE_SEED_RESET_KEY) !== 'ready') {
+      localStorage.removeItem(CUSTOM_WIKI_STORAGE_KEY);
+      localStorage.removeItem(DELETED_WIKI_STORAGE_KEY);
+      localStorage.setItem(SINGLE_SEED_RESET_KEY, 'ready');
+    }
+  } catch (e) {
+    console.error('Failed to reset wiki seed data', e);
+  }
+}
 
 export function getDocSlug(doc: any): string {
   if (!doc) return 'unknown';
@@ -2344,6 +2357,7 @@ export function normalizeWikiDocument(doc: any): any {
 }
 
 export function getCustomWikiDocs(): any[] {
+  ensureSingleSeedData();
   try {
     const raw = localStorage.getItem(CUSTOM_WIKI_STORAGE_KEY);
     if (raw) {
@@ -2359,6 +2373,7 @@ export function getCustomWikiDocs(): any[] {
 }
 
 export function getDeletedDocIds(): string[] {
+  ensureSingleSeedData();
   try {
     const raw = localStorage.getItem(DELETED_WIKI_STORAGE_KEY);
     if (raw) {
@@ -2435,7 +2450,7 @@ export function saveWikiDocument(doc: any): void {
     if (allIdx >= 0) allWikiDocuments[allIdx] = cleanDoc;
     else allWikiDocuments.unshift(cleanDoc);
 
-    window.dispatchEvent(new Event('citadel-wiki-updated'));
+    window.dispatchEvent(new Event('droplet-spire-wiki-updated'));
   } catch (e) {
     console.error('Failed to save wiki document', e);
   }
@@ -2464,7 +2479,7 @@ export function deleteWikiDocument(docId: string): void {
     const allIdx = allWikiDocuments.findIndex((d: any) => d._id === docId);
     if (allIdx >= 0) allWikiDocuments.splice(allIdx, 1);
 
-    window.dispatchEvent(new Event('citadel-wiki-updated'));
+    window.dispatchEvent(new Event('droplet-spire-wiki-updated'));
   } catch (e) {
     console.error('Failed to delete wiki document', e);
   }
@@ -2474,63 +2489,63 @@ export function getAllLocations(): LocationDoc[] {
   const deleted = new Set(getDeletedDocIds());
   const custom = getCustomWikiDocs().filter((d) => (d._type === 'location' || d._type === 'place') && !deleted.has(d._id));
   const base = mockLocations.filter((l) => !deleted.has(l._id) && !custom.some((c) => c._id === l._id));
-  return [...custom, ...base];
+  return [...custom, ...base].slice(0, 1);
 }
 
 export function getAllCharacters(): CharacterDoc[] {
   const deleted = new Set(getDeletedDocIds());
   const custom = getCustomWikiDocs().filter((d) => d._type === 'character' && !deleted.has(d._id));
   const base = mockCharacters.filter((c) => !deleted.has(c._id) && !custom.some((cus) => cus._id === c._id));
-  return [...custom, ...base];
+  return [...custom, ...base].slice(0, 1);
 }
 
 export function getAllHouses(): HouseDoc[] {
   const deleted = new Set(getDeletedDocIds());
   const custom = getCustomWikiDocs().filter((d) => d._type === 'house' && !deleted.has(d._id));
   const base = mockHouses.filter((h) => !deleted.has(h._id) && !custom.some((cus) => cus._id === h._id));
-  return [...custom, ...base];
+  return [...custom, ...base].slice(0, 1);
 }
 
 export function getAllEvents(): EventDoc[] {
   const deleted = new Set(getDeletedDocIds());
   const custom = getCustomWikiDocs().filter((d) => d._type === 'event' && !deleted.has(d._id));
   const base = mockEvents.filter((e) => !deleted.has(e._id) && !custom.some((cus) => cus._id === e._id));
-  return [...custom, ...base];
+  return [...custom, ...base].slice(0, 1);
 }
 
 export function getAllCultures(): CultureDoc[] {
   const deleted = new Set(getDeletedDocIds());
   const custom = getCustomWikiDocs().filter((d) => d._type === 'culture' && !deleted.has(d._id));
   const base = mockCultures.filter((c) => !deleted.has(c._id) && !custom.some((cus) => cus._id === c._id));
-  return [...custom, ...base];
+  return [...custom, ...base].slice(0, 1);
 }
 
 export function getAllMagic(): MagicDoc[] {
   const deleted = new Set(getDeletedDocIds());
   const custom = getCustomWikiDocs().filter((d) => d._type === 'magic' && !deleted.has(d._id));
   const base = mockMagic.filter((m) => !deleted.has(m._id) && !custom.some((cus) => cus._id === m._id));
-  return [...custom, ...base];
+  return [...custom, ...base].slice(0, 1);
 }
 
 export function getAllSpecies(): SpeciesDoc[] {
   const deleted = new Set(getDeletedDocIds());
   const custom = getCustomWikiDocs().filter((d) => d._type === 'species' && !deleted.has(d._id));
   const base = mockSpecies.filter((s) => !deleted.has(s._id) && !custom.some((cus) => cus._id === s._id));
-  return [...custom, ...base];
+  return [...custom, ...base].slice(0, 1);
 }
 
 export function getAllBooks(): BookDoc[] {
   const deleted = new Set(getDeletedDocIds());
   const custom = getCustomWikiDocs().filter((d) => d._type === 'book' && !deleted.has(d._id));
   const base = mockBooks.filter((b) => !deleted.has(b._id) && !custom.some((cus) => cus._id === b._id));
-  return [...custom, ...base];
+  return [...custom, ...base].slice(0, 1);
 }
 
 export function getAllProfessions(): ProfessionDoc[] {
   const deleted = new Set(getDeletedDocIds());
   const custom = getCustomWikiDocs().filter((d) => d._type === 'profession' && !deleted.has(d._id));
   const base = mockProfessions.filter((p) => !deleted.has(p._id) && !custom.some((cus) => cus._id === p._id));
-  return [...custom, ...base];
+  return [...custom, ...base].slice(0, 1);
 }
 
 export function getAllWikiDocuments(): any[] {
@@ -2556,7 +2571,7 @@ const CANONICAL_TIMELINE_DOCS: Record<string, EventDoc> = {
     slug: { current: 'dawn-age' },
     date: '12,000 BC',
     outcome: 'Pact of the Isle of Faces sealed between the First Men and the Children of the Forest.',
-    quickSummary: 'The First Men cross the Arm of Dorne into Westeros, waging war with bronze swords against the indigenous Children of the Forest until sealing eternal peace upon the Isle of Faces.',
+    quickSummary: 'The First Men cross the Arm of Dorne into Antos, waging war with bronze swords against the indigenous Children of the Forest until sealing eternal peace upon the Isle of Faces.',
     description: [
       {
         _type: 'block',
@@ -2566,7 +2581,7 @@ const CANONICAL_TIMELINE_DOCS: Record<string, EventDoc> = {
           {
             _key: 'dac1',
             _type: 'span',
-            text: 'Twelve thousand years before the conquest, the First Men arrived in Westeros over the broken land bridge known as the Arm of Dorne. Armed with bronze weapons and riding horses, they cut down the sacred weirwood groves of the indigenous Children of the Forest to clear lands for farmsteads and keeps.',
+            text: 'Twelve thousand years before the conquest, the First Men arrived in Antos over the broken land bridge known as the Arm of Dorne. Armed with bronze weapons and riding horses, they cut down the sacred weirwood groves of the indigenous Children of the Forest to clear lands for farmsteads and keeps.',
           },
         ],
       },
@@ -2622,10 +2637,10 @@ const CANONICAL_TIMELINE_DOCS: Record<string, EventDoc> = {
   'andal-invasion': {
     _id: 'event-andal-invasion',
     _type: 'event',
-    name: 'The Andal Invasion of Westeros',
+    name: 'The Andal Invasion of Antos',
     slug: { current: 'andal-invasion' },
     date: '6,000 BC',
-    outcome: 'Andal conquest of southern Westeros. Establishment of the Faith of the Seven and chivalric knighthood.',
+    outcome: 'Andal conquest of southern Antos. Establishment of the Faith of the Seven and chivalric knighthood.',
     quickSummary: 'Sailing across the Narrow Sea in longships with seven-pointed stars carved into their flesh, the Andals introduced iron and the Faith of the Seven across the south, thwarted only by the Kings of Winter at Moat Cailin.',
     description: [
       {
@@ -2636,7 +2651,7 @@ const CANONICAL_TIMELINE_DOCS: Record<string, EventDoc> = {
           {
             _key: 'aic1',
             _type: 'span',
-            text: 'The Andals crossed the Narrow Sea from Essos, landing upon the shores of the Vale. They slew the First Men kings, felled ancient weirwood groves, and instituted the holy rites of chivalry and the Faith of the Seven.',
+            text: 'The Andals crossed the Narrow Sea from Eclind, landing upon the shores of the Vale. They slew the First Men kings, felled ancient weirwood groves, and instituted the holy rites of chivalry and the Faith of the Seven.',
           },
         ],
       },
@@ -2695,7 +2710,7 @@ const CANONICAL_TIMELINE_DOCS: Record<string, EventDoc> = {
     slug: { current: 'aegons-conquest' },
     date: '2 BC – 1 AC',
     outcome: 'Six kingdoms united under the Iron Throne; Aegon I crowned King of the Andals and the First Men.',
-    quickSummary: 'Aegon Targaryen lands at the Blackwater Rush with his sister-wives Visenya and Rhaenys and their three dragons Balerion, Vhagar, and Meraxes. The Field of Fire and the surrender of the North unify Westeros.',
+    quickSummary: 'Aegon Targaryen lands at the Blackwater Rush with his sister-wives Visenya and Rhaenys and their three dragons Balerion, Vhagar, and Meraxes. The Field of Fire and the surrender of the North unify Antos.',
     description: [
       {
         _type: 'block',
@@ -2718,7 +2733,7 @@ const CANONICAL_TIMELINE_DOCS: Record<string, EventDoc> = {
     slug: { current: 'dance-dragons' },
     date: '129 – 131 AC',
     outcome: 'Near-total extinction of the Targaryen dragons; Aegon III ascends the throne.',
-    quickSummary: 'The catastrophic war of succession between Princess Rhaenyra (the Blacks) and her half-brother King Aegon II (the Greens), turning dragon against dragon across the skies of Westeros.',
+    quickSummary: 'The catastrophic war of succession between Princess Rhaenyra (the Blacks) and her half-brother King Aegon II (the Greens), turning dragon against dragon across the skies of Antos.',
     description: [
       {
         _type: 'block',
@@ -2740,7 +2755,7 @@ const CANONICAL_TIMELINE_DOCS: Record<string, EventDoc> = {
     name: 'The First Blackfyre Rebellion',
     slug: { current: 'blackfyre-rebellion' },
     date: '196 AC',
-    outcome: 'Rebel defeat at the Battle of the Redgrass Field. Bittersteel flees to Essos to form the Golden Company.',
+    outcome: 'Rebel defeat at the Battle of the Redgrass Field. Bittersteel flees to Eclind to form the Golden Company.',
     quickSummary: 'Daemon Blackfyre raises rebellion against King Daeron II with the ancestral Valyrian sword Blackfyre. The conflict concludes in bloodshed at the Redgrass Field with the death of Daemon and his twin sons.',
     description: [
       {
@@ -2797,7 +2812,7 @@ const CANONICAL_TIMELINE_DOCS: Record<string, EventDoc> = {
           {
             _key: 'w5kc1',
             _type: 'span',
-            text: 'Following King Robert’s death and the execution of Eddard Stark, Robb Stark was crowned King in the North by his bannermen. Across Westeros, claimants clashed in massive campaigns that laid waste to the Riverlands and Crownlands.',
+            text: 'Following King Robert’s death and the execution of Eddard Stark, Robb Stark was crowned King in the North by his bannermen. Across Antos, claimants clashed in massive campaigns that laid waste to the Riverlands and Crownlands.',
           },
         ],
       },
@@ -2830,14 +2845,15 @@ const CANONICAL_TIMELINE_DOCS: Record<string, EventDoc> = {
 
 // Helper search index
 export const allWikiDocuments = [
-  ...mockCharacters,
-  ...mockHouses,
-  ...mockLocations,
-  ...mockEvents,
-  ...mockCultures,
-  ...mockMagic,
-  ...mockSpecies,
-  ...mockBooks,
+  ...getAllCharacters(),
+  ...getAllHouses(),
+  ...getAllLocations(),
+  ...getAllEvents(),
+  ...getAllCultures(),
+  ...getAllMagic(),
+  ...getAllSpecies(),
+  ...getAllBooks(),
+  ...getAllProfessions(),
 ];
 
 export function findDocByTypeAndSlug(type: string, slug: string) {

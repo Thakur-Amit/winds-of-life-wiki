@@ -61,7 +61,7 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({ currentRoute, onNavigate }
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-neutral-950 border-b border-neutral-850 shadow-md">
+    <header className="sticky top-0 z-50 w-full bg-neutral-950/75 backdrop-blur-md border-b border-neutral-700/60 shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-15 gap-4">
           {/* Brand Logo */}

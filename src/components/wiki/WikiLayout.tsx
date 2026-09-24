@@ -279,7 +279,7 @@ export const WikiLayout: React.FC<WikiLayoutProps> = ({
                   <div className="bg-neutral-900/40 p-6 rounded-2xl border border-neutral-800/60 backdrop-blur-sm">
                     <h3 className="text-xs font-mono uppercase tracking-widest text-neutral-400 mb-6 flex items-center gap-2 border-b border-neutral-800 pb-2">
                       <BookOpen className="w-4 h-4 text-amber-400" />
-                      <span>Citadel Historical Chronicle</span>
+                      <span>droplet-spire Historical Chronicle</span>
                     </h3>
 
                     {portableTextContent.length > 0 ? (

@@ -4,16 +4,16 @@ import { schemaTypes } from './schemas';
 
 export default defineConfig({
   name: 'worldbuilding-wiki',
-  title: 'Citadel Codex Lore Studio',
+  title: 'droplet-spire Codex Lore Studio',
 
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'citadel-codex-wiki',
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'droplet-spire-codex-wiki',
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
 
   plugins: [
     structureTool({
       structure: (S) =>
         S.list()
-          .title('Citadel Worldbuilding Codex')
+          .title('droplet-spire Worldbuilding Codex')
           .items([
             S.listItem()
               .title('Personages & Characters')

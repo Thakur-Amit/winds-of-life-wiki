@@ -82,8 +82,8 @@ export const CategoryDirectoryPage: React.FC<CategoryDirectoryPageProps> = ({
   // Sync when any document is added, edited, or deleted
   useEffect(() => {
     const handleUpdate = () => setSyncVersion((v) => v + 1);
-    window.addEventListener('citadel-wiki-updated', handleUpdate);
-    return () => window.removeEventListener('citadel-wiki-updated', handleUpdate);
+    window.addEventListener('droplet-spire-wiki-updated', handleUpdate);
+    return () => window.removeEventListener('droplet-spire-wiki-updated', handleUpdate);
   }, []);
 
   // Determine items and metadata dynamically based on categorySlug and syncVersion
@@ -96,7 +96,7 @@ export const CategoryDirectoryPage: React.FC<CategoryDirectoryPageProps> = ({
           singular: 'House',
           docType: 'house' as WikiDocType,
           description:
-            'The Great Houses and sworn bannermen of Westeros, their ancestral sigils, seats, and words of power.',
+            'The Great Houses and sworn bannermen of Antos, their ancestral sigils, seats, and words of power.',
           icon: Shield,
           items: houses.map((h): DirectoryCardItem => ({
             _id: h._id,
@@ -107,7 +107,7 @@ export const CategoryDirectoryPage: React.FC<CategoryDirectoryPageProps> = ({
             quickSummary: h.quickSummary,
             badge: h.seat?.name || h.region || 'Great House',
             secondary: h.motto ? `"${h.motto}"` : undefined,
-            tag: h.region || 'Westeros',
+            tag: h.region || 'Antos',
             rawDoc: h,
           })),
           filterTags: ['All', 'The North', 'The Westerlands', 'The Reach', 'The Stormlands', 'The Riverlands', 'The Crownlands'],
@@ -135,7 +135,7 @@ export const CategoryDirectoryPage: React.FC<CategoryDirectoryPageProps> = ({
             tag: l.region,
             rawDoc: l,
           })),
-          filterTags: ['All', 'The North', 'The Crownlands', 'The Reach', 'The Riverlands', 'Essos', 'Dorne'],
+          filterTags: ['All', 'The North', 'The Crownlands', 'The Reach', 'The Riverlands', 'Eclind', 'Dorne'],
         };
       }
       case 'history':
@@ -185,7 +185,7 @@ export const CategoryDirectoryPage: React.FC<CategoryDirectoryPageProps> = ({
             tag: c.region,
             rawDoc: c,
           })),
-          filterTags: ['All', 'Westeros', 'Essos', 'Valyria'],
+          filterTags: ['All', 'Antos', 'Eclind', 'Valyria'],
         };
       }
       case 'magic-artifacts':
@@ -392,7 +392,7 @@ export const CategoryDirectoryPage: React.FC<CategoryDirectoryPageProps> = ({
       newDoc.outcome = modalSummary.trim();
       newDoc.history = textBlocks;
     } else if (categoryMeta.docType === 'culture') {
-      newDoc.region = modalSecondary.trim() || 'Westeros';
+      newDoc.region = modalSecondary.trim() || 'Antos';
       newDoc.religion = modalSecondary.trim() || 'Ancient Faith';
       newDoc.traditions = textBlocks;
     } else if (categoryMeta.docType === 'magic') {
@@ -401,7 +401,7 @@ export const CategoryDirectoryPage: React.FC<CategoryDirectoryPageProps> = ({
       newDoc.rulesAndArtifacts = textBlocks;
     } else if (categoryMeta.docType === 'species') {
       newDoc.status = modalSecondary.trim() || 'Endangered / Rare';
-      newDoc.habitat = 'Westeros / Essos';
+      newDoc.habitat = 'Antos / Eclind';
     } else if (categoryMeta.docType === 'book') {
       newDoc.title = modalName.trim();
       newDoc.releaseOrder = 1;

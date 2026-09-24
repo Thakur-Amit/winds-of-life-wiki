@@ -10,7 +10,7 @@ export const WikiFooter: React.FC<WikiFooterProps> = ({ onNavigate }) => {
     <footer className="w-full bg-neutral-950 border-t border-neutral-850 mt-16 text-neutral-400 text-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-neutral-800">
-          {/* Col 1: Brand & Citadel Seal */}
+          {/* Col 1: Brand & droplet-spire Seal */}
           <div className="space-y-3">
             <div className="flex items-center gap-2.5">
               <div className="w-7 h-7 rounded bg-amber-600/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
@@ -24,7 +24,7 @@ export const WikiFooter: React.FC<WikiFooterProps> = ({ onNavigate }) => {
               A comprehensive encyclopedia and worldbuilding archive inspired by George R.R. Martin's <em>A Song of Ice and Fire</em> universe and <em>winds of life's wiki</em>.
             </p>
             <p className="text-[11px] font-mono text-neutral-500">
-              Archived at the Citadel of Oldtown • 305 AC
+              Archived at the droplet-spire of Oldtown • 305 AC
             </p>
           </div>
 

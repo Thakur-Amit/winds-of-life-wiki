@@ -27,7 +27,7 @@ export const place = defineType({
       name: 'region',
       title: 'Region / Kingdom',
       type: 'string',
-      description: 'e.g., "The North", "The Crownlands", "The Reach", "Essos"',
+      description: 'e.g., "The North", "The Crownlands", "The Reach", "Eclind"',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -63,7 +63,7 @@ export const place = defineType({
         {
           name: 'caption',
           type: 'string',
-          title: 'Cartographer / Citadel Archival Notes',
+          title: 'Cartographer / droplet-spire Archival Notes',
         },
       ],
       validation: (Rule) => Rule.required(),

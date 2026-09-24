@@ -45,8 +45,8 @@ export const CharacterDirectoryPage: React.FC<CharacterDirectoryPageProps> = ({ 
 
   useEffect(() => {
     const handleUpdate = () => setSyncVersion((version) => version + 1);
-    window.addEventListener('citadel-wiki-updated', handleUpdate);
-    return () => window.removeEventListener('citadel-wiki-updated', handleUpdate);
+    window.addEventListener('droplet-spire-wiki-updated', handleUpdate);
+    return () => window.removeEventListener('droplet-spire-wiki-updated', handleUpdate);
   }, []);
 
   const characters = useMemo(() => getAllCharacters(), [syncVersion]);
@@ -151,7 +151,7 @@ export const CharacterDirectoryPage: React.FC<CharacterDirectoryPageProps> = ({ 
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-amber-400 mb-2">
               <Users className="w-4 h-4 text-amber-400" />
-              <span>Archival Rolls of Westeros & Essos</span>
+              <span>Archival Rolls of Antos & Eclind</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-black font-serif-title text-neutral-100 tracking-wide">
               Alphabetical Character Directory

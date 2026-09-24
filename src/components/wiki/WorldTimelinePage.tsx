@@ -59,8 +59,8 @@ export const WorldTimelinePage: React.FC<WorldTimelinePageProps> = ({ onNavigate
   useEffect(() => {
     loadData();
     const handleUpdate = () => loadData();
-    window.addEventListener('citadel-timeline-updated', handleUpdate);
-    return () => window.removeEventListener('citadel-timeline-updated', handleUpdate);
+    window.addEventListener('droplet-spire-timeline-updated', handleUpdate);
+    return () => window.removeEventListener('droplet-spire-timeline-updated', handleUpdate);
   }, []);
 
   const filteredEvents = useMemo(() => {
@@ -154,14 +154,14 @@ export const WorldTimelinePage: React.FC<WorldTimelinePageProps> = ({ onNavigate
   };
 
   const handleDelete = (id: string) => {
-    if (window.confirm('Are you sure you want to remove this event from the Citadel Chronicle?')) {
+    if (window.confirm('Are you sure you want to remove this event from the droplet-spire Chronicle?')) {
       deleteTimelineEvent(id);
       loadData();
     }
   };
 
   const handleReset = () => {
-    if (window.confirm('Reset the entire timeline to the canonical Citadel records?')) {
+    if (window.confirm('Reset the entire timeline to the canonical droplet-spire records?')) {
       resetWorldTimeline();
       loadData();
     }
@@ -201,7 +201,7 @@ export const WorldTimelinePage: React.FC<WorldTimelinePageProps> = ({ onNavigate
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-amber-400 mb-2">
               <Calendar className="w-4 h-4 text-amber-400" />
-              <span>Citadel Chronology of the Known World</span>
+              <span>droplet-spire Chronology of the Known World</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-black font-serif-title text-neutral-100 tracking-wide">
               The Grand Chronicle & World Timeline
@@ -222,7 +222,7 @@ export const WorldTimelinePage: React.FC<WorldTimelinePageProps> = ({ onNavigate
             <button
               onClick={handleReset}
               className="px-3 py-2.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-neutral-400 hover:text-neutral-200 text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
-              title="Reset Timeline to Citadel Canon"
+              title="Reset Timeline to droplet-spire Canon"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Reset Canon</span>

@@ -20,7 +20,7 @@ export const INITIAL_WORLD_TIMELINE: TimelineEvent[] = [
     era: 'Dawn & Ancient',
     title: 'The Dawn Age & Arrival of the First Men',
     description:
-      'The First Men cross the Arm of Dorne into Westeros, clashing with the indigenous Children of the Forest until the sacred Pact of the Isle of Faces is sealed.',
+      'The First Men cross the Arm of Dorne into Antos, clashing with the indigenous Children of the Forest until the sacred Pact of the Isle of Faces is sealed.',
     location: 'Isle of Faces, God\'s Eye',
     houses: ['First Men', 'Children of the Forest'],
     characters: ['Garth Greenhand', 'Bran the Builder'],
@@ -46,10 +46,10 @@ export const INITIAL_WORLD_TIMELINE: TimelineEvent[] = [
     year: '6,000 BC',
     numericYear: -6000,
     era: 'Dawn & Ancient',
-    title: 'The Andal Invasion of Westeros',
+    title: 'The Andal Invasion of Antos',
     description:
-      'The Andals sail from Essos bearing steel weapons and carving seven-pointed stars into their flesh, conquering the First Men kingdoms and bringing the Faith of the Seven, except in the stubborn North.',
-    location: 'The Vale & Westeros',
+      'The Andals sail from Eclind bearing steel weapons and carving seven-pointed stars into their flesh, conquering the First Men kingdoms and bringing the Faith of the Seven, except in the stubborn North.',
+    location: 'The Vale & Antos',
     houses: ['House Arryn', 'Andal Chieftains'],
     characters: ['Artys Arryn', 'The Falcon Knight'],
     type: 'War',
@@ -63,7 +63,7 @@ export const INITIAL_WORLD_TIMELINE: TimelineEvent[] = [
     title: 'Rise of the Valyrian Freehold',
     description:
       'Valyrian sheep herders discover dragons in the Fourteen Fires volcanoes and tame them with sorcery, building the greatest empire in the Known World.',
-    location: 'Valyrian Peninsula, Essos',
+    location: 'Valyrian Peninsula, Eclind',
     houses: ['House Targaryen', 'House Belaerys', 'Valyrian Dragonlords'],
     characters: ['Valyrian Archmages'],
     type: 'Discovery',
@@ -91,7 +91,7 @@ export const INITIAL_WORLD_TIMELINE: TimelineEvent[] = [
     title: 'Aegon\'s Conquest of the Seven Kingdoms',
     description:
       'Aegon Targaryen and his sister-wives Visenya and Rhaenys land at the Blackwater Rush with their three dragons (Balerion, Vhagar, Meraxes). Following the Field of Fire and the Burning of Harrenhal, six kingdoms bend the knee and the Iron Throne is forged.',
-    location: 'Westeros, King\'s Landing',
+    location: 'Antos, King\'s Landing',
     houses: ['House Targaryen', 'House Stark', 'House Lannister', 'House Gardener'],
     characters: ['Aegon I Targaryen', 'Visenya Targaryen', 'Rhaenys Targaryen', 'Torrhen Stark'],
     type: 'Dynasty',
@@ -197,7 +197,7 @@ export const INITIAL_WORLD_TIMELINE: TimelineEvent[] = [
   },
 ];
 
-const TIMELINE_STORAGE_KEY = 'citadel_world_timeline';
+const TIMELINE_STORAGE_KEY = 'droplet-spire_world_timeline';
 
 export function getWorldTimeline(): TimelineEvent[] {
   try {
@@ -218,7 +218,7 @@ export function saveWorldTimeline(events: TimelineEvent[]): void {
   try {
     localStorage.setItem(TIMELINE_STORAGE_KEY, JSON.stringify(events));
     // Dispatch custom event so all active views update immediately
-    window.dispatchEvent(new Event('citadel-timeline-updated'));
+    window.dispatchEvent(new Event('droplet-spire-timeline-updated'));
   } catch (e) {
     console.error('Failed to save world timeline', e);
   }
